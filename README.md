@@ -153,6 +153,16 @@ Cette manière est ``@Deprecated`` depuis J-Unit 4.1.3
       Integer.parseInt("not a number");
     });
   }
+
+  @Test
+  void testExceptionMessage() {
+    Exception ex = assertThrows(IllegalArgumentException.class, () -> {
+        throw new IllegalArgumentException("Montant invalide");
+    });
+
+    assert ex.getMessage().equals("Montant invalide");
+}
+
 ```
 
 Avec l’introduction des lambdas depuis Java 8, il est plus direct d’encapsuler un appel d’un code produisant une exception dans une fonction anonyme. On utilise pour cela ``Assert.assertThrows`` en précisant le type de l’exception attendue. Si cette approche est élégante, elle mélange tout de même les codes de la phase `*act*` et de la phase `*assert*`.
@@ -161,12 +171,14 @@ Avec l’introduction des lambdas depuis Java 8, il est plus direct d’encapsul
 
 Parfois, il est utile de contrôler l’environnement de test d’un objet ou d’une collaboration d’objets. Pour cela, on peut faire appel à des doublures qui vont se substituer lors des tests aux objets réellement utilisés lors de l’exécution de l’application dans un environnement de production.
 
-Simulateur
+#### Simulateur
 
-    Un simulateur fournit une implémentation alternative d’un sous-système. Un simulateur remplace un sous-système qui n’est pas disponible pour l’environnement de test. Par exemple, on peut remplacer un système de base de données par une implémentation simplifiée en mémoire.
-Fake object
+  Un simulateur fournit une implémentation alternative d’un sous-système. Un simulateur remplace un sous-système qui n’est pas disponible pour l’environnement de test. Par exemple, on peut remplacer un système de base de données par une implémentation simplifiée en mémoire.
 
-    Un fake object permet de remplacer un sous-système dont il est difficile de garantir le comportement. Le comportement du fake object est défini par le test et est donc déterministe. Par exemple, si un objet dépend des informations retournées par un service Web, il est souhaitable de remplacer pour les tests l’implémentation du client par une implémentation qui retournera une réponse déterminée par le test lui-même.
-Mock object
+#### Fake object
 
-    Un objet mock est proche d’un fake object sauf qu’un objet mock est également capable de faire des assertions sur les méthodes qui sont appelées et les paramètres qui sont transmis à ces méthodes.
+  Un fake object permet de remplacer un sous-système dont il est difficile de garantir le comportement. Le comportement du fake object est défini par le test et est donc déterministe. Par exemple, si un objet dépend des informations retournées par un service Web, il est souhaitable de remplacer pour les tests l’implémentation du client par une implémentation qui retournera une réponse déterminée par le test lui-même.
+
+#### Mock object
+
+  Un objet mock est proche d’un fake object sauf qu’un objet mock est également capable de faire des assertions sur les méthodes qui sont appelées et les paramètres qui sont transmis à ces méthodes.
