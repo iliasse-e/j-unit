@@ -109,58 +109,58 @@ public class ExempleTest {
 
 Grâce aux tests unitaires, il est également plus facile de tester les cas non nominaux qui se traduisent la plupart du temps par la production d’une exception en Java. Si on désire tester un cas d’erreur par exemple, cela signifie que le test sera ok si une exception précise est produite lors de la phase *act*.
 
-DIfférentes manières :
+### 4 manières :
 
 ```java
-  @Test
-  public void parseIntThrowsExceptionWhenNotANumber() throws Exception {
-    try {
-     Integer.parseInt("not a number");
-     fail("NumberFormatException expected");
-    } catch (NumberFormatException e) {
-    }
+@Test
+public void parseIntThrowsExceptionWhenNotANumber() throws Exception {
+  try {
+    Integer.parseInt("not a number");
+    fail("NumberFormatException expected");
+  } catch (NumberFormatException e) {
   }
+}
 ```
 
 Dans l’exemple ci-dessus, on utilise une structure ``try`` ... ``catch`` pour attraper l’exception qui est attendue. Dans le bloc ``try``, l’appel à la méthode ``Assert.fail`` pour faire échouer le test si jamais la phase act (c’est-à-dire l’appel à Integer#parseInt) n’a pas produit d’exception. Cette façon d’écrire le test est simple mais rend le test parfois difficile à lire à cause de la présence des blocs ``try`` ... ``catch`` et de l’absence d’une phase ``assert`` remplacée par l’appel à ``Assert.fail``.
 
 ```java
-  @Test(expected = NumberFormatException.class)
-  public void parseIntThrowsExceptionWhenNotANumber() throws Exception {
-    Integer.parseInt("not a number");
-  }
+@Test(expected = NumberFormatException.class)
+public void parseIntThrowsExceptionWhenNotANumber() throws Exception {
+  Integer.parseInt("not a number");
+}
 ```
 Dans l’exemple ci-dessus, on utilise l’attribut expected de l’annotation ``@Test`` qui permet d’indiquer que l’on s’attend à ce que le test échoue à cause de la propagation d’une exception (si ce n’est pas le cas, le test sera considéré en échec). Cette façon d’écrire le test est plus simple que précédemment mais elle peut être difficile à comprendre car la phase *assert* n’est pas explicite
 
 ```java
-  @Rule
-  public ExpectedException expectedException = ExpectedException.none();
+@Rule
+public ExpectedException expectedException = ExpectedException.none();
 
-  @Test
-  public void parseIntThrowsExceptionWhenNotANumber() throws Exception {
-    expectedException.expect(NumberFormatException.class);
+@Test
+public void parseIntThrowsExceptionWhenNotANumber() throws Exception {
+  expectedException.expect(NumberFormatException.class);
 
-    Integer.parseInt("not a number");
-  }
+  Integer.parseInt("not a number");
+}
 ```
 
 Cette manière est ``@Deprecated`` depuis J-Unit 4.1.3
 
 ```java
-  @Test
-  public void parseIntThrowsExceptionWhenNotANumber() throws Exception {
-    assertThrows(NumberFormatException.class, () -> {
-      Integer.parseInt("not a number");
-    });
-  }
+@Test
+public void parseIntThrowsExceptionWhenNotANumber() throws Exception {
+  assertThrows(NumberFormatException.class, () -> {
+    Integer.parseInt("not a number");
+  });
+}
 
-  @Test
-  void testExceptionMessage() {
-    Exception ex = assertThrows(IllegalArgumentException.class, () -> {
-        throw new IllegalArgumentException("Montant invalide");
-    });
+@Test
+void testExceptionMessage() {
+  Exception ex = assertThrows(IllegalArgumentException.class, () -> {
+      throw new IllegalArgumentException("Montant invalide");
+  });
 
-    assert ex.getMessage().equals("Montant invalide");
+  assert ex.getMessage().equals("Montant invalide");
 }
 
 ```

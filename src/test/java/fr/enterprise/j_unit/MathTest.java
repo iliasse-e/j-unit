@@ -2,6 +2,7 @@ package fr.enterprise.j_unit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,16 @@ public class MathTest {
     }
 
   }
-
   
+  @Test()
+  void StringRepeatThrowsExceptionWhenNegativeParam() {
+    String str = "Bonjour";
+    
+    Exception ex = assertThrows(IllegalArgumentException.class, () -> {
+      str.repeat(-1);
+    });
+
+    assert ex.getMessage().equals("count is negative: -1");
+  }
+ 
 }
