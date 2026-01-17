@@ -182,3 +182,5 @@ Parfois, il est utile de contrôler l’environnement de test d’un objet ou d�
 #### Mock object
 
   Un objet mock est proche d’un fake object sauf qu’un objet mock est également capable de faire des assertions sur les méthodes qui sont appelées et les paramètres qui sont transmis à ces méthodes.
+
+Visiter le dépôt sur Mockito : https://github.com/iliasse-e/mockito
